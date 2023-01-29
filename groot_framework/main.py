@@ -14,6 +14,11 @@ class Framework:
     def __call__(self, environ, start_response):
         # Получаем адрес, по которому пользователь выполнил переход
         path = environ['PATH_INFO']
+        
+        #убираем из путей .html
+        if path.endswith('.html'):
+            path = path.replace('.html', '')
+
 
         # Добавляем закрывающий слеш
         if not path.endswith('/'):

@@ -7,6 +7,8 @@ from views import *
 # PC
 routes = {
     '/': Index(),
+    '/index/': Index(),
+    '/#/': Index(),
     '/about/': About(),
     '/contact/': Contact(),
     '/page/': Page(),
