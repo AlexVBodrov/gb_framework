@@ -1,8 +1,9 @@
 from wsgiref.simple_server import make_server
 
 from groot_framework.main import Framework
-from urls import routes
-
+# from urls import routes
+from urls import fronts
+from views import routes
 
 application = Framework(routes)
 

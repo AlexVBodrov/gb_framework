@@ -3,42 +3,47 @@ from datetime import date
 
 from groot_framework.templator import render
 from patterns.сreational_patterns import Engine, Logger
+from patterns.structural_patterns import AppRoute, Debug
 
 site = Engine()
 logger = Logger('main')
 
-class Contact:
-    def __call__(self, request):
-        return '200 OK', render('contact.html')
-
+routes = {}
 
 # контроллер - главная страница
+@AppRoute(routes=routes, url='/')
 class Index:
+    @Debug(name='Index')
     def __call__(self, request):
         return '200 OK', render('index.html', objects_list=site.categories)
 
 
 # контроллер "О проекте"
+@AppRoute(routes=routes, url='/about/')
 class About:
+    @Debug(name='About')
     def __call__(self, request):
         return '200 OK', render('about.html')
 
 
 # контроллер - Расписания
+@AppRoute(routes=routes, url='/study_programs/')
 class StudyPrograms:
+    @Debug(name='StudyPrograms')
     def __call__(self, request):
-        return '200 OK', render('study-programs.html', date=date.today())
+        return '200 OK', render('study-programs.html', data=date.today())
 
 
 
 # контроллер - список курсов
+@AppRoute(routes=routes, url='/courses-list/')
 class CoursesList:
     def __call__(self, request):
         logger.log('Список курсов')
         try:
             category = site.find_category_by_id(
                 int(request['request_params']['id']))
-            return '200 OK', render('course-list.html',
+            return '200 OK', render('course_list.html',
                                     objects_list=category.courses,
                                     name=category.name, id=category.id)
         except KeyError:
@@ -46,6 +51,7 @@ class CoursesList:
 
 
 # контроллер - создать курс
+@AppRoute(routes=routes, url='/create-course/')
 class CreateCourse:
     category_id = -1
 
@@ -82,6 +88,7 @@ class CreateCourse:
 
 
 # контроллер - создать категорию
+@AppRoute(routes=routes, url='/create-category/')
 class CreateCategory:
     def __call__(self, request):
 
@@ -109,8 +116,8 @@ class CreateCategory:
             return '200 OK', render('create-category.html',
                                     categories=categories)
 
-
 # контроллер - список категорий
+@AppRoute(routes=routes, url='/category-list/')
 class CategoryList:
     def __call__(self, request):
         logger.log('Список категорий')
@@ -118,6 +125,13 @@ class CategoryList:
                                 objects_list=site.categories)
 
 
+@AppRoute(routes=routes, url='/contact/')
+class Contact:
+    def __call__(self, request):
+        return '200 OK', render('contact.html')
+
+
+@AppRoute(routes=routes, url='/copy-course/')
 # контроллер - копировать курс
 class CopyCourse:
     def __call__(self, request):
