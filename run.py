@@ -1,11 +1,14 @@
 from wsgiref.simple_server import make_server
 
 from groot_framework.main import Framework
-from urls import routes, fronts
+# from urls import routes
+from urls import fronts
+from views import routes
 
+application = Framework(routes)
 
-application = Framework(routes, fronts)
+PORT_NUM = 8080
 
-with make_server('', 8000, application) as httpd:
-    print("Запуск на порту 8000...")
+with make_server('', PORT_NUM, application) as httpd:
+    print(f"Запуск на порту {PORT_NUM}...")
     httpd.serve_forever()

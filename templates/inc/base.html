@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="website description" />
+    <meta name="keywords" content="website keywords, website keywords" />
+    <meta http-equiv="content-type" content="text/html; " />
+    <title>{% block title %}{% endblock %}</title>
+    {% block style %} {% include "inc/inc-style.html" %} {% endblock %}
+  </head>
+  <body>
+    <div id="main">
+      {% block header %} {% include "inc/inc-header.html" %} {% endblock %}
+
+      <div id="site_content">
+        {% block sidebar %} {% include "inc/inc-sidebar.html" %} {% endblock %}
+
+      {% block body %} {% endblock %}
+    </div>
+      {% block footer %} {% include "inc/inc-footer.html" %} {% endblock %}
+    </div>
+  </body>
+</html>
